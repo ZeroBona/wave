@@ -5,8 +5,228 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>波浪无限滚动</title>
+    <style>
+    .wave-box{
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 230px;
+        overflow: hidden;
+    }
+    canvas{
+        position: absolute;
+        bottom: 0;
+        left: 0; 
+    }
+    #wave1 {
+        z-index: 1;
+    }
+    #wave2 {
+        z-index: 2;
+    }
+    #wave3 {
+        z-index: 2;
+    }
+    </style>
 </head>
 <body>
+    <div class="wave-box">
+        <canvas id="wave1" height="180"></canvas>
+        <canvas id="wave2" height="180"></canvas>
+        <canvas id="wave3" height="180"></canvas>
+    </div>
+    <script src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script>
+        //是否允许波浪滚动
+        let allowWaveFlow = true
+
+        //声明三个波浪的定时器
+        let timer1,
+            timer2,
+            timer3
+
+        /* 第一条波浪（可在里面修改波浪颜色大小及滚动速度） */
+        function wave1() {
+            let waveWidth = 3000,
+                offset = 0,
+                waveHeight = 50,  //波浪高度
+                waveCount = 6,  //波浪个数
+                startX = -1000,
+                startY = 180,   //canvas 高度
+                progress = 155,  //波浪位置的高度
+                d2 = waveWidth / waveCount,
+                d = d2 / 2,
+                hd = d / 2,
+                c = document.getElementById("wave1"),
+                ctx = c.getContext("2d")
+
+            let left = -125,
+                changeLeft = 3000 + left
+
+            function tick() {
+                offset -= 1
+                if (-1 * offset >= d2) offset = 0
+                ctx.clearRect(0, 0, c.width, c.height)
+                ctx.fillStyle = '#d8e8fd'   //波浪颜色
+                ctx.beginPath()
+                let offsetY = startY - progress
+                ctx.moveTo(startX - offset, offsetY)
+                for (let i = 0; i < waveCount; i++) {
+                    let dx = i * d2
+                    let offsetX = dx + startX - offset
+                    ctx.quadraticCurveTo(offsetX + hd, offsetY + waveHeight, offsetX + d, offsetY)
+                    ctx.quadraticCurveTo(offsetX + hd + d, offsetY - waveHeight, offsetX + d2, offsetY)
+                }
+                ctx.lineTo(startX + waveWidth, 3000)
+                ctx.lineTo(startX, 3000)
+                ctx.fill()
+
+                left += 1
+                if (left >= changeLeft) left = -125
+
+                clearInterval(timer1)
+                timer1 = setInterval(function () {
+                    if (allowWaveFlow) {
+                        clearInterval(timer1)
+                        setTimeout(tick, 1500 / 100)  //波浪速度
+                    }
+                }, 10)
+            }
+
+            tick()
+        }
+
+        /* 第二条波浪（可在里面修改波浪颜色大小及滚动速度） */
+        function wave2() {
+            let waveWidth = 3000,
+                offset = 0,
+                waveHeight = 50,  //波浪高度
+                waveCount = 6,  //波浪个数
+                startX = -1200,
+                startY = 180,   //canvas 高度
+                progress = 130,  //波浪位置的高度
+                d2 = waveWidth / waveCount,
+                d = d2 / 2,
+                hd = d / 2,
+                c = document.getElementById("wave2"),
+                ctx = c.getContext("2d")
+
+            let left = -325,
+                changeLeft = 3000 + left
+
+            function tick() {
+                offset -= 1
+                if (-1 * offset >= d2) offset = 0
+                ctx.clearRect(0, 0, c.width, c.height)
+                ctx.fillStyle = '#b4d0fc'   //波浪颜色
+                ctx.beginPath()
+                let offsetY = startY - progress
+                ctx.moveTo(startX - offset, offsetY)
+                for (let i = 0; i < waveCount; i++) {
+                    let dx = i * d2
+                    let offsetX = dx + startX - offset
+                    ctx.quadraticCurveTo(offsetX + hd, offsetY + waveHeight, offsetX + d, offsetY)
+                    ctx.quadraticCurveTo(offsetX + hd + d, offsetY - waveHeight, offsetX + d2, offsetY)
+                }
+                ctx.lineTo(startX + waveWidth, 3000)
+                ctx.lineTo(startX, 3000)
+                ctx.fill()
+
+                left += 1
+                if (left >= changeLeft) left = -325
+
+                clearInterval(timer2)
+                timer2 = setInterval(function () {
+                    if (allowWaveFlow) {
+                        clearInterval(timer2)
+                        setTimeout(tick, 1500 / 80)  //波浪速度
+                    }
+                }, 10)
+            }
+
+            tick()
+        }
+
+        /* 第三条波浪（可在里面修改波浪颜色大小及滚动速度） */
+        function wave3() {
+            let waveWidth = 3000,
+                offset = 0,
+                waveHeight = 50,  //波浪高度
+                waveCount = 6,  //波浪个数
+                startX = -800,
+                startY = 180,   //canvas 高度
+                progress = 105,  //波浪位置的高度
+                d2 = waveWidth / waveCount,
+                d = d2 / 2,
+                hd = d / 2,
+                c = document.getElementById("wave3"),
+                ctx = c.getContext("2d")
+
+            let left = 75,
+                changeLeft = 3000 + left
+
+            function tick() {
+                offset -= 1
+                if (-1 * offset >= d2) offset = 0
+                ctx.clearRect(0, 0, c.width, c.height)
+                ctx.fillStyle = '#7daafa'   //波浪颜色
+                ctx.beginPath()
+                let offsetY = startY - progress
+                ctx.moveTo(startX - offset, offsetY)
+                for (let i = 0; i < waveCount; i++) {
+                    let dx = i * d2
+                    let offsetX = dx + startX - offset
+                    ctx.quadraticCurveTo(offsetX + hd, offsetY + waveHeight, offsetX + d, offsetY)
+                    ctx.quadraticCurveTo(offsetX + hd + d, offsetY - waveHeight, offsetX + d2, offsetY)
+                }
+                ctx.lineTo(startX + waveWidth, 3000)
+                ctx.lineTo(startX, 3000)
+                ctx.fill()
+
+                left += 1
+                if (left >= changeLeft) left = 75
+
+                clearInterval(timer3)
+                timer3 = setInterval(function () {
+                    if (allowWaveFlow) {
+                        clearInterval(timer3)
+                        setTimeout(tick, 1500 / 60)  //波浪速度
+                    }
+                }, 10)
+            }
+
+            tick()
+        }
     
+        //初始化三条波浪
+        function initWave() {
+            wave1()
+            wave2()
+            wave3()
+        
+            //设置canvas宽度
+            let screenWidth = window.innerWidth
+            let canvas1 = document.getElementById('wave1')
+            canvas1.width = screenWidth
+            let canvas2 = document.getElementById('wave2')
+            canvas2.width = screenWidth
+            let canvas3 = document.getElementById('wave3')
+            canvas3.width = screenWidth
+        }
+        initWave()
+
+        //鼠标悬浮在波浪上时停止波浪，离开后开启波浪
+        $('.wave-box').hover(function () {
+            allowWaveFlow = false
+        }, function () {
+            allowWaveFlow = true
+        })
+
+        //屏幕宽度变化时重新初始化三条波浪
+        window.onresize = function () {
+            initWave()
+        }
+    </script>
 </body>
 </html>
